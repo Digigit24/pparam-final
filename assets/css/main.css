@@ -41496,8 +41496,7 @@ only screen and (min-width: 768px) and (max-width: 991px) {
     -ms-transition: all 0.3s 0s ease-out;
     -o-transition: all 0.3s 0s ease-out;
     transition: all 0.3s 0s ease-out;
-    margin-top: 10px;
-    margin-left: 5px;
+    margin-top: 5px;
 }
 
 .al-service-archi-icon i {
@@ -46714,7 +46713,7 @@ div[class*="-area"]:nth-of-type(even) {
 
 /* 5. Cards and Content Blocks */
 .al-service-archi-wrapper {
-    padding: 45px 35px;
+    padding: 35px 25px;
     background-color: var(--tp-common-white);
     border: 1px solid rgba(28, 29, 33, 0.08);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
@@ -46722,6 +46721,7 @@ div[class*="-area"]:nth-of-type(even) {
     transition: all 0.3s ease;
     height: 100%;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .al-service-archi-wrapper:hover {
@@ -46897,3 +46897,24 @@ a, button, .tp-btn, .al-btn {
 }
 
 
+
+/* 8. Mobile Responsiveness for Services Section */
+@media only screen and (max-width: 575px) {
+    .al-service-archi-wrapper {
+        padding: 20px 10px !important;
+    }
+    .al-service-archi-title {
+        font-size: 18px !important;
+    }
+    .al-service-archi-wrapper p {
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 10px !important;
+    }
+    .al-service-archi-icon {
+        margin-bottom: 10px !important;
+    }
+    .al-service-archi-icon i {
+        font-size: 30px !important;
+    }
+}
