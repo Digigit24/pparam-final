@@ -3640,6 +3640,43 @@ only screen and (min-width: 576px) and (max-width: 767px),
     transform: translateY(-15%);
 }
 
+/*  WhatsApp floating button
+/*----------------------------------------*/
+
+.whatsappFloat {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    background-color: #25d366;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    z-index: 999;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.whatsappFloat:hover {
+    background-color: #1ebe57;
+    color: #fff;
+    transform: translateY(-4px);
+}
+
+@media only screen and (max-width: 991px) {
+    .whatsappFloat {
+        bottom: 65px;
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+}
+
 .scrollToTop .arrowUp {
     position: absolute;
     left: 0;
