@@ -692,123 +692,35 @@
           </div>
         </section>
 
-        <!-- GSAP Multi-Directional Logic -->
+        <!-- Hero Auto-Play Carousel (page scrolls normally) -->
         <script>
           (function () {
             document.addEventListener("DOMContentLoaded", function () {
-              if (
-                typeof gsap === "undefined" ||
-                typeof ScrollTrigger === "undefined"
-              )
-                return;
+              const panels = Array.from(
+                document.querySelectorAll("#hero-panels-wrap .h-panel"),
+              );
+              const dots = Array.from(document.querySelectorAll(".h-nav-dots .h-dot"));
+              if (!panels.length) return;
 
-              gsap.registerPlugin(ScrollTrigger);
-
-              const wrap = document.getElementById("hero-panels-wrap");
-              const panels = gsap.utils.toArray("#hero-panels-wrap .h-panel");
-              const dots = gsap.utils.toArray(".h-nav-dots .h-dot");
-              const total = panels.length;
-              const customEase = "cubic-bezier(0.2, 0.9, 0.4, 1.1)";
-
-              // Initially stack all except the first one out of view/ready for entry
               panels.forEach((p, i) => {
-                if (i > 0) gsap.set(p, { opacity: 0, zIndex: i + 1 });
+                p.style.transition = "opacity 0.8s ease-in-out";
+                p.style.opacity = i === 0 ? "1" : "0";
+                p.style.zIndex = i === 0 ? "2" : "1";
               });
 
-              const tl = gsap.timeline({
-                scrollTrigger: {
-                  trigger: "#pparam-hero",
-                  start: "top top",
-                  end: "+=" + total * 100 + "%",
-                  pin: true,
-                  scrub: 0.8,
-                  snap: 1 / (total - 1),
-                  onUpdate: (self) => {
-                    const progress = self.progress * (total - 1);
-                    const activeIndex = Math.round(progress);
-                    dots.forEach((dot, idx) => {
-                      dot.classList.toggle("active", idx === activeIndex);
-                    });
-                  },
-                },
-              });
+              let active = 0;
+              const total = panels.length;
+              const INTERVAL_MS = 1500;
 
-              // Directional Logic
-              // Slide 2: From TOP
-              tl.fromTo(
-                panels[1],
-                { yPercent: -100, rotateX: 15, opacity: 0 },
-                { yPercent: 0, rotateX: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[0],
-                {
-                  scale: 0.9,
-                  filter: "blur(10px)",
-                  opacity: 0.5,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 3: From RIGHT
-              tl.fromTo(
-                panels[2],
-                { xPercent: 100, rotateY: 15, opacity: 0 },
-                { xPercent: 0, rotateY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[1],
-                {
-                  scale: 0.93,
-                  filter: "blur(5px)",
-                  opacity: 0.3,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 4: From LEFT
-              tl.fromTo(
-                panels[3],
-                { xPercent: -100, rotateY: -15, opacity: 0 },
-                { xPercent: 0, rotateY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[2],
-                { scale: 0.95, yPercent: 5, opacity: 0, ease: "none" },
-                "<",
-              );
-
-              // Slide 5: From BOTTOM
-              tl.fromTo(
-                panels[4],
-                { yPercent: 100, skewY: 5, opacity: 0 },
-                { yPercent: 0, skewY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[3],
-                {
-                  scale: 0.8,
-                  filter: "brightness(0.3)",
-                  opacity: 0,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 6: From TOP-RIGHT (Diagonal)
-              tl.fromTo(
-                panels[5],
-                { xPercent: 100, yPercent: -100, rotate: 5, opacity: 0 },
-                {
-                  xPercent: 0,
-                  yPercent: 0,
-                  rotate: 0,
-                  opacity: 1,
-                  ease: customEase,
-                },
-              ).to(
-                panels[4],
-                { xPercent: -20, opacity: 0, ease: "none" },
-                "<",
-              );
+              setInterval(function () {
+                const next = (active + 1) % total;
+                panels[active].style.opacity = "0";
+                panels[active].style.zIndex = "1";
+                panels[next].style.opacity = "1";
+                panels[next].style.zIndex = "2";
+                dots.forEach((d, i) => d.classList.toggle("active", i === next));
+                active = next;
+              }, INTERVAL_MS);
             });
           })();
         </script>
