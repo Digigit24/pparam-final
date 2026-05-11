@@ -65,7 +65,7 @@
       "url": "https://pparamarchitect.com",
       "logo": "https://pparamarchitect.com/assets/pparam-logo-new.png",
       "image": "https://pparamarchitect.com/assets/logo-new.png",
-      "description": "Pparam Architect & Interior offers expert architectural planning, interior design, Vastu consultancy, and construction services with over 10 years of experience across Maharashtra. We have successfully completed more than 200 residential, commercial, and industrial civil and interior projects.",
+      "description": "Pparam Architect & Interior offers expert architectural planning, interior design, Vastu consultancy, and construction services with over 10 years of experience across Maharashtra. We have successfully served more than 700+ residential, commercial, and industrial clients across civil and interior projects.",
       "foundingDate": "2014",
       "numberOfEmployees": 15,
       "founder": {
@@ -134,7 +134,7 @@
       "@type": "LocalBusiness",
       "@id": "https://pparamarchitect.com/#localbusiness",
       "name": "Pparam Architect & Interior",
-      "description": "Expert architectural planning, interior design, Vastu consultancy, and construction services across Maharashtra with over 10 years of experience and 200+ successful projects.",
+      "description": "Expert architectural planning, interior design, Vastu consultancy, and construction services across Maharashtra with over 10 years of experience and 700+ happy clients.",
       "image": "https://pparamarchitect.com/assets/pparam-logo-new.png",
       "url": "https://pparamarchitect.com",
       "telephone": "+919172125366",
@@ -399,6 +399,11 @@
     <div id="ball"></div>
   </div>
   <!-- End magic cursor -->
+
+  <!-- whatsapp float -->
+  <a class="whatsappFloat" href="https://wa.me/919284611107" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
   <!-- backtotop area start -->
   <div class="scrollToTop">
@@ -692,123 +697,35 @@
           </div>
         </section>
 
-        <!-- GSAP Multi-Directional Logic -->
+        <!-- Hero Auto-Play Carousel (page scrolls normally) -->
         <script>
           (function () {
             document.addEventListener("DOMContentLoaded", function () {
-              if (
-                typeof gsap === "undefined" ||
-                typeof ScrollTrigger === "undefined"
-              )
-                return;
+              const panels = Array.from(
+                document.querySelectorAll("#hero-panels-wrap .h-panel"),
+              );
+              const dots = Array.from(document.querySelectorAll(".h-nav-dots .h-dot"));
+              if (!panels.length) return;
 
-              gsap.registerPlugin(ScrollTrigger);
-
-              const wrap = document.getElementById("hero-panels-wrap");
-              const panels = gsap.utils.toArray("#hero-panels-wrap .h-panel");
-              const dots = gsap.utils.toArray(".h-nav-dots .h-dot");
-              const total = panels.length;
-              const customEase = "cubic-bezier(0.2, 0.9, 0.4, 1.1)";
-
-              // Initially stack all except the first one out of view/ready for entry
               panels.forEach((p, i) => {
-                if (i > 0) gsap.set(p, { opacity: 0, zIndex: i + 1 });
+                p.style.transition = "opacity 0.8s ease-in-out";
+                p.style.opacity = i === 0 ? "1" : "0";
+                p.style.zIndex = i === 0 ? "2" : "1";
               });
 
-              const tl = gsap.timeline({
-                scrollTrigger: {
-                  trigger: "#pparam-hero",
-                  start: "top top",
-                  end: "+=" + total * 100 + "%",
-                  pin: true,
-                  scrub: 0.8,
-                  snap: 1 / (total - 1),
-                  onUpdate: (self) => {
-                    const progress = self.progress * (total - 1);
-                    const activeIndex = Math.round(progress);
-                    dots.forEach((dot, idx) => {
-                      dot.classList.toggle("active", idx === activeIndex);
-                    });
-                  },
-                },
-              });
+              let active = 0;
+              const total = panels.length;
+              const INTERVAL_MS = 1500;
 
-              // Directional Logic
-              // Slide 2: From TOP
-              tl.fromTo(
-                panels[1],
-                { yPercent: -100, rotateX: 15, opacity: 0 },
-                { yPercent: 0, rotateX: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[0],
-                {
-                  scale: 0.9,
-                  filter: "blur(10px)",
-                  opacity: 0.5,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 3: From RIGHT
-              tl.fromTo(
-                panels[2],
-                { xPercent: 100, rotateY: 15, opacity: 0 },
-                { xPercent: 0, rotateY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[1],
-                {
-                  scale: 0.93,
-                  filter: "blur(5px)",
-                  opacity: 0.3,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 4: From LEFT
-              tl.fromTo(
-                panels[3],
-                { xPercent: -100, rotateY: -15, opacity: 0 },
-                { xPercent: 0, rotateY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[2],
-                { scale: 0.95, yPercent: 5, opacity: 0, ease: "none" },
-                "<",
-              );
-
-              // Slide 5: From BOTTOM
-              tl.fromTo(
-                panels[4],
-                { yPercent: 100, skewY: 5, opacity: 0 },
-                { yPercent: 0, skewY: 0, opacity: 1, ease: customEase },
-              ).to(
-                panels[3],
-                {
-                  scale: 0.8,
-                  filter: "brightness(0.3)",
-                  opacity: 0,
-                  ease: "none",
-                },
-                "<",
-              );
-
-              // Slide 6: From TOP-RIGHT (Diagonal)
-              tl.fromTo(
-                panels[5],
-                { xPercent: 100, yPercent: -100, rotate: 5, opacity: 0 },
-                {
-                  xPercent: 0,
-                  yPercent: 0,
-                  rotate: 0,
-                  opacity: 1,
-                  ease: customEase,
-                },
-              ).to(
-                panels[4],
-                { xPercent: -20, opacity: 0, ease: "none" },
-                "<",
-              );
+              setInterval(function () {
+                const next = (active + 1) % total;
+                panels[active].style.opacity = "0";
+                panels[active].style.zIndex = "1";
+                panels[next].style.opacity = "1";
+                panels[next].style.zIndex = "2";
+                dots.forEach((d, i) => d.classList.toggle("active", i === next));
+                active = next;
+              }, INTERVAL_MS);
             });
           })();
         </script>
@@ -836,8 +753,8 @@
                           last 10 years,<b style="color: red;"> with Council of Architecture Reg. No. CA/2010/49783,
                             serving projects all over Maharashtra </b>.
                           The company operates office projects from Aurangabad.
-                          <b style="color: red;">We have successfully completed more than 200 residential, commercial,
-                            and industrial civil and interior
+                          <b style="color: red;">We have successfully served more than 700+ residential, commercial,
+                            and industrial clients across civil and interior
                             projects. </b>
                         </p>
                       </div>
@@ -927,7 +844,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Architectural<br />
+                      <a href="service.html#architectural-planning">Architectural<br />
                         Planning</a>
                     </h3>
                     <p class="mb-20">
@@ -945,7 +862,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Interior<br />
+                      <a href="service.html#interior-design">Interior<br />
                         Design</a>
                     </h3>
                     <p class="mb-20">
@@ -964,7 +881,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Industrial<br />
+                      <a href="service.html#industrial-design">Industrial<br />
                         Design</a>
                     </h3>
                     <p class="mb-20">
@@ -982,7 +899,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Vastu<br />
+                      <a href="service.html#vastu-consultancy">Vastu<br />
                         Consultancy</a>
                     </h3>
                     <p class="mb-20">
@@ -1000,7 +917,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Renovations <br> & Remodeling</a>
+                      <a href="service.html#renovations">Renovations <br> & Remodeling</a>
                     </h3>
                     <p class="mb-20">
                       Transforming old structures into modern, functional, and
@@ -1017,7 +934,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Graphics<br />
+                      <a href="service.html#graphics-design">Graphics<br />
                         Design</a>
                     </h3>
                     <p class="mb-20">
@@ -1036,7 +953,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Construction<br />
+                      <a href="service.html#construction-works">Construction<br />
                         Works</a>
                     </h3>
                     <p class="mb-20">
@@ -1055,7 +972,7 @@
                   </div>
                   <div class="al-service-archi-content">
                     <h3 class="al-service-archi-title">
-                      <a href="service.html">Land<br />
+                      <a href="service.html#land-developers">Land<br />
                         Developers</a>
                     </h3>
                     <p class="mb-20">
@@ -1344,7 +1261,7 @@
                   <div class="al-project-archi-content">
                     <div class="al-project-archi-meta mb-15"></div>
                     <h3 class="al-project-archi-title-sm m-0">
-                      <a href="index.html">Office Decor Partition View</a>
+                      <a href="index.html">Living Room Interior</a>
                     </h3>
                     <div class="al-project-archi-icon">
                       <a class="tp-left-right" href="index.html">
