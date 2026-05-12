@@ -556,8 +556,8 @@
 
                 <!-- tp-banner-area-start -->
                 <div class="tp-about-me-banner scale-up-img">
-                    <img class="img-cover scale-up" data-speed="0.4" src="assets/pparam-recedential.png"
-                        alt="About Thumbnail">
+                    <img id="service-banner-img" class="img-cover scale-up" data-speed="0.4" src="assets/pparam-recedential.png"
+                        alt="Service banner">
                 </div>
                 <!-- tp-banner-area-end -->
 
@@ -937,13 +937,30 @@
                       "land-developers",
                     ];
 
+                    const BANNER_IMAGES = {
+                      "architectural-planning": "assets/commercial-complex.png",
+                      "interior-design": "assets/kitchen-hall.png",
+                      "industrial-design": "assets/pparam-commercial-one.png",
+                      "vastu-consultancy": "assets/entrance-foyer.png",
+                      "renovations": "assets/Residential%20Bungalow.png",
+                      "graphics-design": "assets/luxury-penthouse.png",
+                      "construction-works": "assets/manisha-residency.png",
+                      "land-developers": "assets/gavane-height.png",
+                    };
+
+                    const DEFAULT_BANNER = "assets/pparam-recedential.png";
+
                     function applyHash() {
                       const hash = (window.location.hash || "").replace("#", "");
                       const sections = SERVICE_IDS.map((id) => document.getElementById(id)).filter(Boolean);
+                      const banner = document.getElementById("service-banner-img");
                       if (hash && SERVICE_IDS.indexOf(hash) !== -1) {
                         sections.forEach((s) => {
                           s.style.display = s.id === hash ? "" : "none";
                         });
+                        if (banner && BANNER_IMAGES[hash]) {
+                          banner.src = BANNER_IMAGES[hash];
+                        }
                         const target = document.getElementById(hash);
                         if (target) {
                           window.scrollTo({ top: target.offsetTop - 100, behavior: "smooth" });
@@ -952,6 +969,9 @@
                         sections.forEach((s) => {
                           s.style.display = "";
                         });
+                        if (banner) {
+                          banner.src = DEFAULT_BANNER;
+                        }
                       }
                     }
 
