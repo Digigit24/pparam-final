@@ -591,6 +591,12 @@
                     max-height: 460px;
                     object-fit: cover;
                   }
+                  #service-banner-img {
+                    transition: opacity 0.25s ease-in-out;
+                  }
+                  #service-banner-img.is-fading {
+                    opacity: 0;
+                  }
                   .al-service-detail .al-blueprint {
                     background: #0f2d52;
                     border-radius: 4px;
@@ -1050,20 +1056,60 @@
                       "land-developers",
                     ];
 
-                    const BANNER_IMAGES = {
-                      "architectural-planning": "assets/our-office-one.jpeg",
-                      "interior-design": "assets/interior/Untitled.jpg",
-                      "industrial-design": "assets/industrial%20work/industrial%20work.jpeg",
-                      "vastu-consultancy": "assets/vastu/12f6dc7d-034a-461b-8abf-6a2d2014f773.jpg",
-                      "renovations": "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.30.47%20PM.jpeg",
-                      "graphics-design": "assets/interior-design-1.jpeg",
-                      "construction-works": "assets/Contruction/WhatsApp%20Image%202026-05-13%20at%201.40.59%20PM.jpeg",
-                      "land-developers": null,
+                    const SERVICE_BANNERS = {
+                      "architectural-planning": ["assets/our-office-one.jpeg"],
+                      "interior-design": ["assets/interior/Untitled.jpg"],
+                      "industrial-design": [
+                        "assets/industrial%20work/industrial%20work.jpeg",
+                        "assets/industrial%20work/31decf06-e7ea-4f3f-b159-216c502bb1af.jpg",
+                      ],
+                      "vastu-consultancy": ["assets/vastu/12f6dc7d-034a-461b-8abf-6a2d2014f773.jpg"],
+                      "renovations": [
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.30.47%20PM.jpeg",
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.31.02%20PM.jpeg",
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.31.16%20PM.jpeg",
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.31.49%20PM.jpeg",
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.32.38%20PM.jpeg",
+                        "assets/renovation/WhatsApp%20Image%202026-05-13%20at%201.33.51%20PM.jpeg",
+                      ],
+                      "graphics-design": ["assets/interior-design-1.jpeg"],
+                      "construction-works": [
+                        "assets/Contruction/WhatsApp%20Image%202026-05-13%20at%201.40.59%20PM.jpeg",
+                        "assets/Contruction/WhatsApp%20Image%202026-05-13%20at%201.40.59%20PM%20%281%29.jpeg",
+                        "assets/Contruction/WhatsApp%20Image%202026-05-13%20at%201.40.59%20PM%20%282%29.jpeg",
+                        "assets/Contruction/WhatsApp%20Image%202026-05-13%20at%201.41.00%20PM.jpeg",
+                      ],
+                      "land-developers": [],
                     };
 
                     const DEFAULT_BANNER = "assets/main-office.jpeg";
+                    const ROTATE_INTERVAL_MS = 1500;
+                    let rotationTimer = null;
+
+                    function stopRotation() {
+                      if (rotationTimer) {
+                        clearInterval(rotationTimer);
+                        rotationTimer = null;
+                      }
+                    }
+
+                    function startRotation(banner, images) {
+                      stopRotation();
+                      if (!banner || !images || images.length < 2) return;
+                      images.forEach((src) => { const i = new Image(); i.src = src; });
+                      let idx = 0;
+                      rotationTimer = setInterval(() => {
+                        idx = (idx + 1) % images.length;
+                        banner.classList.add("is-fading");
+                        setTimeout(() => {
+                          banner.src = images[idx];
+                          banner.classList.remove("is-fading");
+                        }, 250);
+                      }, ROTATE_INTERVAL_MS);
+                    }
 
                     function applyHash() {
+                      stopRotation();
                       const hash = (window.location.hash || "").replace("#", "");
                       const sections = SERVICE_IDS.map((id) => document.getElementById(id)).filter(Boolean);
                       const banner = document.getElementById("service-banner-img");
@@ -1073,10 +1119,11 @@
                           s.style.display = s.id === hash ? "" : "none";
                         });
                         if (banner) {
-                          const src = BANNER_IMAGES[hash];
-                          if (src) {
-                            banner.src = src;
+                          const images = SERVICE_BANNERS[hash] || [];
+                          if (images.length > 0) {
+                            banner.src = images[0];
                             if (bannerWrap) bannerWrap.style.display = "";
+                            startRotation(banner, images);
                           } else if (bannerWrap) {
                             bannerWrap.style.display = "none";
                           }
