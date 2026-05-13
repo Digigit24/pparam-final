@@ -736,7 +736,7 @@
                     <div class="row align-items-center gx-50">
                       <div class="col-lg-6 mb-30">
                         <div class="al-service-detail-img">
-                          <img src="assets/our-office-three.jpeg" alt="Architectural Planning" loading="lazy" />
+                          <img src="assets/1.jpeg" alt="Architectural Planning" loading="lazy" />
                         </div>
                       </div>
                       <div class="col-lg-6">
@@ -784,7 +784,7 @@
                     <div class="row align-items-center gx-50">
                       <div class="col-lg-6 mb-30">
                         <div class="al-service-detail-img">
-                          <img src="assets/office-decor-par-on-view.png" alt="Industrial Design" loading="lazy" />
+                          <img src="assets/space-computers.png" alt="Industrial Design" loading="lazy" />
                         </div>
                       </div>
                       <div class="col-lg-6">
@@ -880,7 +880,7 @@
                     <div class="row align-items-center gx-50">
                       <div class="col-lg-6 mb-30">
                         <div class="al-service-detail-img">
-                          <img src="assets/main-office.jpeg" alt="Construction Works" loading="lazy" />
+                          <img src="assets/office-decor-par-on-view.png" alt="Construction Works" loading="lazy" />
                         </div>
                       </div>
                       <div class="col-lg-6">
@@ -901,13 +901,8 @@
 
                 <section id="land-developers" class="al-service-detail">
                   <div class="container">
-                    <div class="row align-items-center gx-50 flex-lg-row-reverse">
-                      <div class="col-lg-6 mb-30">
-                        <div class="al-service-detail-img">
-                          <img src="assets/our-office-three.jpeg" alt="Land Developers" loading="lazy" />
-                        </div>
-                      </div>
-                      <div class="col-lg-6">
+                    <div class="row align-items-center gx-50">
+                      <div class="col-lg-10 mx-auto">
                         <span class="al-section-archi-subtitle">08 - Land Developers</span>
                         <h2>Land Development</h2>
                         <p>Open plots turned into well-planned, sale-ready projects. We advise landowners and developers on the highest-value use of a parcel — whether that's a residential layout, a commercial complex, or a mixed-use scheme.</p>
@@ -938,14 +933,14 @@
                     ];
 
                     const BANNER_IMAGES = {
-                      "architectural-planning": "assets/our-office-new.jpeg",
+                      "architectural-planning": "assets/our-office-one.jpeg",
                       "interior-design": "assets/hall-1.jpeg",
-                      "industrial-design": "assets/space-computers.png",
+                      "industrial-design": "assets/main-office.jpeg",
                       "vastu-consultancy": "assets/god.jpeg",
                       "renovations": "assets/choice.jpeg",
                       "graphics-design": "assets/interior-design-1.jpeg",
-                      "construction-works": "assets/our-office-one.jpeg",
-                      "land-developers": "assets/1.jpeg",
+                      "construction-works": "assets/our-office-new.jpeg",
+                      "land-developers": null,
                     };
 
                     const DEFAULT_BANNER = "assets/main-office.jpeg";
@@ -954,12 +949,19 @@
                       const hash = (window.location.hash || "").replace("#", "");
                       const sections = SERVICE_IDS.map((id) => document.getElementById(id)).filter(Boolean);
                       const banner = document.getElementById("service-banner-img");
+                      const bannerWrap = banner ? banner.parentElement : null;
                       if (hash && SERVICE_IDS.indexOf(hash) !== -1) {
                         sections.forEach((s) => {
                           s.style.display = s.id === hash ? "" : "none";
                         });
-                        if (banner && BANNER_IMAGES[hash]) {
-                          banner.src = BANNER_IMAGES[hash];
+                        if (banner) {
+                          const src = BANNER_IMAGES[hash];
+                          if (src) {
+                            banner.src = src;
+                            if (bannerWrap) bannerWrap.style.display = "";
+                          } else if (bannerWrap) {
+                            bannerWrap.style.display = "none";
+                          }
                         }
                         const target = document.getElementById(hash);
                         if (target) {
@@ -971,6 +973,7 @@
                         });
                         if (banner) {
                           banner.src = DEFAULT_BANNER;
+                          if (bannerWrap) bannerWrap.style.display = "";
                         }
                       }
                     }
