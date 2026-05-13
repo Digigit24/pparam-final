@@ -591,6 +591,18 @@
                     max-height: 460px;
                     object-fit: cover;
                   }
+                  .al-service-detail .al-blueprint {
+                    background: #0f2d52;
+                    border-radius: 4px;
+                    overflow: hidden;
+                    box-shadow: 0 10px 30px rgba(15, 45, 82, 0.25);
+                  }
+                  .al-service-detail .al-blueprint svg {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    max-height: 460px;
+                  }
                   .al-service-detail h2 {
                     font-size: 42px;
                     margin-bottom: 20px;
@@ -735,8 +747,124 @@
                   <div class="container">
                     <div class="row align-items-center gx-50">
                       <div class="col-lg-6 mb-30">
-                        <div class="al-service-detail-img">
-                          <img src="assets/1.jpeg" alt="Architectural Planning" loading="lazy" />
+                        <div class="al-service-detail-img al-blueprint">
+                          <svg viewBox="0 0 800 600" role="img" aria-label="Architectural floor plan blueprint" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                              <pattern id="bp-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#3c6291" stroke-width="0.5" opacity="0.5"/>
+                              </pattern>
+                              <pattern id="bp-grid-fine" width="8" height="8" patternUnits="userSpaceOnUse">
+                                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#2a4d75" stroke-width="0.3" opacity="0.5"/>
+                              </pattern>
+                            </defs>
+                            <rect width="800" height="600" fill="#0f2d52"/>
+                            <rect width="800" height="600" fill="url(#bp-grid-fine)"/>
+                            <rect width="800" height="600" fill="url(#bp-grid)"/>
+
+                            <!-- Outer wall (double line) -->
+                            <g stroke="#eaf3ff" fill="none" stroke-linecap="square">
+                              <rect x="120" y="100" width="560" height="380" stroke-width="4"/>
+                              <rect x="128" y="108" width="544" height="364" stroke-width="1.2"/>
+                            </g>
+
+                            <!-- Internal walls -->
+                            <g stroke="#eaf3ff" stroke-width="2.5" fill="none">
+                              <!-- vertical divider -->
+                              <line x1="420" y1="100" x2="420" y2="300"/>
+                              <!-- horizontal divider top half -->
+                              <line x1="420" y1="300" x2="680" y2="300"/>
+                              <!-- bathroom divider -->
+                              <line x1="120" y1="340" x2="280" y2="340"/>
+                              <line x1="280" y1="340" x2="280" y2="480"/>
+                            </g>
+
+                            <!-- Door openings (gaps + swing arcs) -->
+                            <g stroke="#eaf3ff" stroke-width="1.5" fill="none">
+                              <!-- main entrance bottom -->
+                              <path d="M 360 480 A 50 50 0 0 1 410 430" />
+                              <line x1="360" y1="480" x2="410" y2="480" stroke-dasharray="2 4"/>
+                              <!-- door between living & kitchen -->
+                              <path d="M 420 240 A 40 40 0 0 0 460 200" />
+                              <!-- bathroom door -->
+                              <path d="M 220 340 A 35 35 0 0 1 220 375" />
+                            </g>
+
+                            <!-- Windows on outer walls (parallel lines breaks) -->
+                            <g stroke="#9ec4f0" stroke-width="2">
+                              <line x1="180" y1="100" x2="260" y2="100"/>
+                              <line x1="180" y1="108" x2="260" y2="108"/>
+                              <line x1="540" y1="100" x2="620" y2="100"/>
+                              <line x1="540" y1="108" x2="620" y2="108"/>
+                              <line x1="680" y1="180" x2="680" y2="260"/>
+                              <line x1="672" y1="180" x2="672" y2="260"/>
+                            </g>
+
+                            <!-- Furniture suggestions (kitchen counter, bed, sofa) -->
+                            <g stroke="#7fb0e6" stroke-width="1.2" fill="none">
+                              <!-- kitchen counter (top right) -->
+                              <rect x="440" y="130" width="220" height="30"/>
+                              <circle cx="490" cy="145" r="6"/>
+                              <circle cx="530" cy="145" r="6"/>
+                              <circle cx="600" cy="145" r="8"/>
+                              <!-- bed (bottom right) -->
+                              <rect x="450" y="340" width="120" height="80"/>
+                              <line x1="450" y1="360" x2="570" y2="360"/>
+                              <!-- sofa (living, bottom left) -->
+                              <rect x="310" y="400" width="100" height="40"/>
+                              <line x1="310" y1="412" x2="410" y2="412"/>
+                              <!-- bathroom fixtures -->
+                              <circle cx="160" cy="380" r="15"/>
+                              <rect x="200" y="370" width="60" height="30"/>
+                            </g>
+
+                            <!-- Room labels -->
+                            <g fill="#eaf3ff" font-family="Courier New, monospace" font-size="13" letter-spacing="2" text-anchor="middle">
+                              <text x="270" y="240">LIVING</text>
+                              <text x="270" y="258" font-size="9" opacity="0.7">14'-0" x 16'-0"</text>
+                              <text x="550" y="200">KITCHEN</text>
+                              <text x="550" y="218" font-size="9" opacity="0.7">10'-0" x 12'-0"</text>
+                              <text x="550" y="395">BEDROOM</text>
+                              <text x="550" y="413" font-size="9" opacity="0.7">12'-0" x 14'-0"</text>
+                              <text x="200" y="395">BATH</text>
+                            </g>
+
+                            <!-- Dimension line top -->
+                            <g stroke="#9ec4f0" stroke-width="1" fill="#9ec4f0" font-family="Courier New, monospace" font-size="11">
+                              <line x1="120" y1="70" x2="680" y2="70"/>
+                              <line x1="120" y1="64" x2="120" y2="76"/>
+                              <line x1="420" y1="64" x2="420" y2="76"/>
+                              <line x1="680" y1="64" x2="680" y2="76"/>
+                              <text x="270" y="62" text-anchor="middle">30'-0"</text>
+                              <text x="550" y="62" text-anchor="middle">26'-0"</text>
+                            </g>
+                            <!-- Dimension line left -->
+                            <g stroke="#9ec4f0" stroke-width="1" fill="#9ec4f0" font-family="Courier New, monospace" font-size="11">
+                              <line x1="90" y1="100" x2="90" y2="480"/>
+                              <line x1="84" y1="100" x2="96" y2="100"/>
+                              <line x1="84" y1="480" x2="96" y2="480"/>
+                              <text x="80" y="295" text-anchor="middle" transform="rotate(-90 80 295)">38'-0"</text>
+                            </g>
+
+                            <!-- North arrow -->
+                            <g transform="translate(720,140)" stroke="#eaf3ff" fill="#eaf3ff">
+                              <circle cx="0" cy="0" r="22" fill="none" stroke-width="1"/>
+                              <polygon points="0,-18 6,8 0,2 -6,8" stroke-width="1"/>
+                              <text y="35" text-anchor="middle" font-family="Courier New, monospace" font-size="11">N</text>
+                            </g>
+
+                            <!-- Title block -->
+                            <g transform="translate(120,510)" stroke="#eaf3ff" fill="#eaf3ff" font-family="Courier New, monospace">
+                              <rect x="0" y="0" width="560" height="60" fill="none" stroke-width="1.2"/>
+                              <line x1="0" y1="22" x2="560" y2="22" stroke-width="0.8"/>
+                              <line x1="360" y1="0" x2="360" y2="60" stroke-width="0.8"/>
+                              <text x="10" y="16" font-size="12" letter-spacing="3">PPARAM ARCHITECTS &amp; INTERIORS</text>
+                              <text x="10" y="40" font-size="10" opacity="0.85">FLOOR PLAN  /  GROUND LEVEL</text>
+                              <text x="10" y="54" font-size="9" opacity="0.7">PROJECT: RESIDENTIAL TYPICAL UNIT</text>
+                              <text x="370" y="16" font-size="10">SHEET</text>
+                              <text x="370" y="40" font-size="11" opacity="0.85">A-101</text>
+                              <text x="370" y="54" font-size="9" opacity="0.7">SCALE 1:100</text>
+                            </g>
+                          </svg>
                         </div>
                       </div>
                       <div class="col-lg-6">
